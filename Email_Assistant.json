@@ -1,0 +1,153 @@
+{
+  "name": "Email Assistant",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "cf941c8a-6173-4bc3-9fdf-d5216054b476",
+      "name": "When chat message received",
+      "webhookId": "d81f267b-9a79-4203-a025-f5e80d312542"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        220,
+        0
+      ],
+      "id": "3746ea32-e733-4cdd-a8b7-6264be830090",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        140,
+        160
+      ],
+      "id": "11c44ebc-5ac3-46df-abd2-e09a35c7de62",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "2Qsm5ASiZPaCQlLi",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        280,
+        180
+      ],
+      "id": "1d18b3e8-c936-439d-b13e-58b67916daec",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "fromEmail": "khaledrabee0200894@gmail.com",
+        "toEmail": "khaledraed2015@gmail.com",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "html": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('HTML', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSendTool",
+      "typeVersion": 2.1,
+      "position": [
+        480,
+        220
+      ],
+      "id": "1d34e94c-66ef-41d9-a435-e2e2c53862cb",
+      "name": "Send Email",
+      "webhookId": "9e92d2c3-49de-4a3a-b786-7c3fe00b6b0a",
+      "credentials": {
+        "smtp": {
+          "id": "G1gl8TYx7S6wX1RZ",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "73128fb4-60e0-4de4-8e0a-6ae99466ba19",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "402a625939ddc887543f670f383137449bc0e990d75d0592219d068cc46da192"
+  },
+  "id": "n7ZOGV3n5MyrT6NC",
+  "tags": []
+}
